@@ -52,7 +52,7 @@ class AuthController {
             $_SESSION['user_role'] = 'customer';
             $_SESSION['user_type'] = $user['role'];
 
-            header('Location: landing.php?success=login');
+            header('Location: index.php?page=landing&success=login');
             exit;
         } else {
             header('Location: index.php?page=login&error=invalid');
@@ -96,10 +96,11 @@ class AuthController {
         $password = isset($_POST['password']) ? $_POST['password'] : '';
         $confirm_password = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
         $no_telepon = isset($_POST['no_telepon']) ? trim($_POST['no_telepon']) : '';
-        $role = isset($_POST['role']) ? trim($_POST['role']) : '';
+        // All new registrations default to customer
+        $role = 'customer';
 
         // Validation
-        if (empty($nama) || empty($email) || empty($password) || empty($confirm_password) || empty($role)) {
+        if (empty($nama) || empty($email) || empty($password) || empty($confirm_password)) {
             header('Location: index.php?page=register&error=required');
             exit;
         }
@@ -152,7 +153,7 @@ class AuthController {
     // Logout action
     public function logout() {
         session_destroy();
-        header('Location: landing.php');
+        header('Location: index.php?page=landing');
         exit;
     }
 }

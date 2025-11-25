@@ -1,59 +1,133 @@
 <?php
+require_once __DIR__ . '/../core/QueryBuilder.php';
+
 class CustomerModel {
-    private $conn;
+    private $db;
+    private $builder;
     private $table = 'customers';
 
     public function __construct($db) {
-        $this->conn = $db;
+        $this->db = $db;
+        $this->builder = new QueryBuilder($db);
     }
 
-    // Get all customers
+    /**
+     * Get all customers
+     */
     public function getAllCustomers() {
-        $query = "SELECT id AS user_id, nama, email, no_telepon, role, tanggal_daftar FROM " . $this->table . " ORDER BY tanggal_daftar DESC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->builder
+            ->table($this->table)
+            ->select(['id AS user_id', 'nama', 'email', 'no_telepon', 'role', 'tanggal_daftar'])
+            ->orderBy('tanggal_daftar', 'DESC')
+            ->get();
     }
 
-    // Get customer by id
+    /**
+     * Get customer by ID
+     */
     public function getCustomerById($id) {
-        $query = "SELECT id AS user_id, nama, email, no_telepon, role, tanggal_daftar FROM " . $this->table . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->builder
+            ->table($this->table)
+            ->select(['id AS user_id', 'nama', 'email', 'no_telepon', 'role', 'tanggal_daftar'])
+            ->where('id', '=', $id)
+            ->first();
     }
 
-    // Create customer
+    /**
+     * Get customer by email
+     */
+    public function getCustomerByEmail($email) {
+        return $this->builder
+            ->table($this->table)
+            ->where('email', '=', $email)
+            ->first();
+    }
+
+    /**
+     * Create customer
+     */
     public function createCustomer($data) {
-        $query = "INSERT INTO " . $this->table . " (nama, email, password, no_telepon, role) VALUES (:nama, :email, :password, :no_telepon, :role)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':nama', $data['nama']);
-        $stmt->bindParam(':email', $data['email']);
-        $stmt->bindParam(':password', $data['password']);
-        $stmt->bindParam(':no_telepon', $data['no_telepon']);
-        $stmt->bindParam(':role', $data['role']);
-        return $stmt->execute();
+        try {
+            return $this->builder
+                ->table($this->table)
+                ->insert($data);
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
-    // Update customer
+    /**
+     * Update customer
+     */
     public function updateCustomer($id, $data) {
-        $query = "UPDATE " . $this->table . " SET nama = :nama, email = :email, no_telepon = :no_telepon, role = :role WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':nama', $data['nama']);
-        $stmt->bindParam(':email', $data['email']);
-        $stmt->bindParam(':no_telepon', $data['no_telepon']);
-        $stmt->bindParam(':role', $data['role']);
-        return $stmt->execute();
+        try {
+            return $this->builder
+                ->table($this->table)
+                ->where('id', '=', $id)
+                ->update($data);
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
-    // Delete customer
+    /**
+     * Delete customer
+     */
     public function deleteCustomer($id) {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        try {
+            return $this->builder
+                ->table($this->table)
+                ->where('id', '=', $id)
+                ->delete();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Search customers by name or email
+     */
+    public function searchCustomers($keyword) {
+        return $this->builder
+            ->table($this->table)
+            ->where('nama', 'LIKE', $keyword)
+            ->orWhere('email', 'LIKE', $keyword)
+            ->orderBy('tanggal_daftar', 'DESC')
+            ->get();
+    }
+
+    /**
+     * Get customers by role
+     */
+    public function getCustomersByRole($role) {
+        return $this->builder
+            ->table($this->table)
+            ->where('role', '=', $role)
+            ->orderBy('tanggal_daftar', 'DESC')
+            ->get();
+    }
+
+    /**
+     * Count total customers
+     */
+    public function countAll() {
+        return $this->builder
+            ->table($this->table)
+            ->count();
+    }
+
+    /**
+     * Get paginated customers
+     */
+    public function getPaginated($page = 1, $perPage = 10) {
+        $offset = ($page - 1) * $perPage;
+        
+        return $this->builder
+            ->table($this->table)
+            ->orderBy('tanggal_daftar', 'DESC')
+            ->limit($perPage)
+            ->offset($offset)
+            ->get();
     }
 }
 ?>

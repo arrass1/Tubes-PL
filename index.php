@@ -2,6 +2,10 @@
 // Start session
 session_start();
 
+// Define base path for assets
+define('BASE_PATH', dirname(__FILE__) . '/');
+define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/');
+
 // Include database connection
 require_once 'config/database.php';
 
@@ -16,13 +20,13 @@ $module = isset($_GET['module']) ? $_GET['module'] : 'dashboard';
 
 // Handle authentication pages
 if ($page === 'login') {
-    include 'login.php';
+    include 'app/views/login.php';
     exit;
 } elseif ($page === 'register') {
-    include 'register.php';
+    include 'app/views/register.php';
     exit;
 } elseif ($page === 'landing') {
-    include 'landing.php';
+    include 'app/views/landing.php';
     exit;
 }
 
@@ -46,7 +50,7 @@ if ($action === 'login') {
 
 // Check authentication for dashboard access (admin only)
 if ($module === 'dashboard' && empty($_SESSION['admin_role'])) {
-    header('Location: landing.php');
+    header('Location: index.php?page=landing');
     exit;
 }
 
@@ -59,7 +63,7 @@ switch ($module) {
         break;
         
     case 'event':
-        require_once __DIR__ . '/app/controllers/EventController.php';
+        require_once 'app/controllers/EventController.php';
         $controller = new EventController($db);
         
         switch ($action) {
@@ -87,7 +91,7 @@ switch ($module) {
         }
         break;
     case 'user':
-        require_once __DIR__ . '/app/controllers/UserController.php';
+        require_once 'app/controllers/UserController.php';
         $controller = new UserController($db);
 
         switch ($action) {
@@ -116,7 +120,7 @@ switch ($module) {
         break;
 
     case 'tiket':
-        require_once __DIR__ . '/app/controllers/TiketController.php';
+        require_once 'app/controllers/TiketController.php';
         $controller = new TiketController($db);
 
         switch ($action) {
@@ -145,7 +149,7 @@ switch ($module) {
         break;
 
     case 'pemesanan':
-        require_once __DIR__ . '/app/controllers/PemesananController.php';
+        require_once 'app/controllers/PemesananController.php';
         $controller = new PemesananController($db);
 
         switch ($action) {
@@ -177,7 +181,7 @@ switch ($module) {
         break;
         
     default:
-        require_once __DIR__ . '/app/controllers/EventController.php';
+        require_once 'app/controllers/EventController.php';
         $controller = new EventController($db);
         $controller->dashboard();
         break;

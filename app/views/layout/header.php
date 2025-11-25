@@ -17,11 +17,12 @@
             <div class="navbar-brand">
                 <i class="fas fa-calendar-alt"></i> EventHub
             </div>
-            
+
             <!-- Admin Menu (only for admin) -->
             <?php if (isset($_SESSION['admin_role'])): ?>
             <div class="navbar-menu">
-                <a href="index.php?module=dashboard" class="nav-menu-link <?= ($module === 'dashboard' ? 'active' : '') ?>">
+                <a href="index.php?module=dashboard"
+                    class="nav-menu-link <?= ($module === 'dashboard' ? 'active' : '') ?>">
                     <i class="fas fa-home"></i> Dashboard
                 </a>
                 <a href="index.php?module=event" class="nav-menu-link <?= ($module === 'event' ? 'active' : '') ?>">
@@ -33,17 +34,19 @@
                 <a href="index.php?module=user" class="nav-menu-link <?= ($module === 'user' ? 'active' : '') ?>">
                     <i class="fas fa-users"></i> Customer
                 </a>
-                <a href="index.php?module=pemesanan" class="nav-menu-link <?= ($module === 'pemesanan' ? 'active' : '') ?>">
+                <a href="index.php?module=pemesanan"
+                    class="nav-menu-link <?= ($module === 'pemesanan' ? 'active' : '') ?>">
                     <i class="fas fa-shopping-cart"></i> Pesanan
                 </a>
             </div>
             <?php elseif (isset($_SESSION['user_id'])): ?>
             <!-- User Menu (only for regular users) -->
             <div class="navbar-menu">
-                <a href="landing.php" class="nav-menu-link">
+                <a href="index.php?page=landing" class="nav-menu-link">
                     <i class="fas fa-home"></i> Home
                 </a>
-                <a href="index.php?module=pemesanan&action=my_orders" class="nav-menu-link <?= ($module === 'pemesanan' ? 'active' : '') ?>">
+                <a href="index.php?module=pemesanan&action=my_orders"
+                    class="nav-menu-link <?= ($module === 'pemesanan' ? 'active' : '') ?>">
                     <i class="fas fa-receipt"></i> Pesanan Saya
                 </a>
             </div>
@@ -52,19 +55,19 @@
             <!-- Right Side: User Info & Logout -->
             <div class="navbar-user">
                 <?php if (isset($_SESSION['admin_role']) || isset($_SESSION['user_id'])): ?>
-                    <div class="user-info">
-                        <i class="fas fa-user-circle"></i>
-                        <span>
-                            <?php if (isset($_SESSION['admin_role'])): ?>
-                                <?= htmlspecialchars($_SESSION['admin_name']) ?>
-                            <?php else: ?>
-                                <?= htmlspecialchars($_SESSION['user_name']) ?>
-                            <?php endif; ?>
-                        </span>
-                    </div>
-                    <a href="index.php?action=logout" class="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span>
+                        <?php if (isset($_SESSION['admin_role'])): ?>
+                        <?= htmlspecialchars($_SESSION['admin_name']) ?>
+                        <?php else: ?>
+                        <?= htmlspecialchars($_SESSION['user_name']) ?>
+                        <?php endif; ?>
+                    </span>
+                </div>
+                <a href="index.php?action=logout" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
                 <?php endif; ?>
             </div>
         </div>
