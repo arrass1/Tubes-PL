@@ -9,9 +9,11 @@ class PemesananModel {
 
     // Get all orders
     public function getAllPemesanan() {
-        $query = "SELECT p.*, e.nama_event, c.nama as customer_nama, c.email as customer_email 
+        // Join pemesanan -> tiket -> event to get event and ticket info
+        $query = "SELECT p.*, t.nama_tiket, t.harga AS tiket_harga, e.nama_event, e.tanggal_event, c.nama as customer_nama, c.email as customer_email 
                   FROM " . $this->table . " p
-                  LEFT JOIN events e ON p.event_id = e.id
+                  LEFT JOIN tiket t ON p.tiket_id = t.id
+                  LEFT JOIN events e ON t.event_id = e.id
                   LEFT JOIN customers c ON p.customer_id = c.id
                   ORDER BY p.tanggal_pemesanan DESC";
         $stmt = $this->conn->prepare($query);
@@ -21,9 +23,10 @@ class PemesananModel {
 
     // Get order by ID
     public function getPemesananById($id) {
-        $query = "SELECT p.*, e.nama_event, c.nama as customer_nama, c.email as customer_email 
+        $query = "SELECT p.*, t.nama_tiket, t.harga AS tiket_harga, e.nama_event, c.nama as customer_nama, c.email as customer_email 
                   FROM " . $this->table . " p
-                  LEFT JOIN events e ON p.event_id = e.id
+                  LEFT JOIN tiket t ON p.tiket_id = t.id
+                  LEFT JOIN events e ON t.event_id = e.id
                   LEFT JOIN customers c ON p.customer_id = c.id
                   WHERE p.id = :id";
         $stmt = $this->conn->prepare($query);
@@ -34,9 +37,10 @@ class PemesananModel {
 
     // Get orders by customer
     public function getPemesananByCustomer($customer_id) {
-        $query = "SELECT p.*, e.nama_event, e.tanggal_event, e.lokasi 
+        $query = "SELECT p.*, t.nama_tiket, t.harga AS tiket_harga, e.nama_event, e.tanggal_event, e.lokasi 
                   FROM " . $this->table . " p
-                  LEFT JOIN events e ON p.event_id = e.id
+                  LEFT JOIN tiket t ON p.tiket_id = t.id
+                  LEFT JOIN events e ON t.event_id = e.id
                   WHERE p.customer_id = :customer_id
                   ORDER BY p.tanggal_pemesanan DESC";
         $stmt = $this->conn->prepare($query);
@@ -48,8 +52,8 @@ class PemesananModel {
     // Create order
     public function createPemesanan($data) {
         $query = "INSERT INTO " . $this->table . " 
-                  (customer_id, event_id, jumlah_tiket, total_harga, status, kode_booking) 
-                  VALUES (:customer_id, :event_id, :jumlah_tiket, :total_harga, :status, :kode_booking)";
+              (customer_id, tiket_id, jumlah_tiket, total_harga, status, kode_booking) 
+              VALUES (:customer_id, :tiket_id, :jumlah_tiket, :total_harga, :status, :kode_booking)";
         
         $stmt = $this->conn->prepare($query);
         
@@ -58,7 +62,7 @@ class PemesananModel {
         
         $status = 'Pending';
         $stmt->bindParam(':customer_id', $data['customer_id']);
-        $stmt->bindParam(':event_id', $data['event_id']);
+        $stmt->bindParam(':tiket_id', $data['tiket_id']);
         $stmt->bindParam(':jumlah_tiket', $data['jumlah_tiket']);
         $stmt->bindParam(':total_harga', $data['total_harga']);
         $stmt->bindParam(':status', $status);

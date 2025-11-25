@@ -51,8 +51,6 @@
                     <th>Nama Event</th>
                     <th>Tanggal</th>
                     <th>Lokasi</th>
-                    <th>Harga</th>
-                    <th>Kapasitas</th>
                     <th>Kategori</th>
                     <th>Status</th>
                     <th>Aksi</th>
@@ -61,7 +59,7 @@
             <tbody>
                 <?php if (empty($events)): ?>
                     <tr>
-                        <td colspan="9" style="text-align: center; color: #999;">
+                        <td colspan="7" style="text-align: center; color: #999;">
                             <i class="fas fa-inbox"></i> Tidak ada data event
                         </td>
                     </tr>
@@ -72,8 +70,6 @@
                             <td><?= htmlspecialchars($event['nama_event']) ?></td>
                             <td><?= date('d M Y', strtotime($event['tanggal_event'])) ?></td>
                             <td><?= htmlspecialchars($event['lokasi']) ?></td>
-                            <td>Rp <?= number_format($event['harga_tiket'], 0, ',', '.') ?></td>
-                            <td><?= number_format($event['kapasitas']) ?></td>
                             <td><span class="badge" style="background: #3b82f6;"><?= htmlspecialchars($event['kategori']) ?></span></td>
                             <td>
                                 <span class="badge" style="background: <?= $event['status'] == 'Aktif' ? '#10b981' : ($event['status'] == 'Selesai' ? '#6c757d' : '#ef4444') ?>">

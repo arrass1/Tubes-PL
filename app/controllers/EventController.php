@@ -41,8 +41,6 @@ class EventController {
                 'deskripsi' => $_POST['deskripsi'],
                 'tanggal_event' => $_POST['tanggal_event'],
                 'lokasi' => $_POST['lokasi'],
-                'harga_tiket' => $_POST['harga_tiket'],
-                'kapasitas' => $_POST['kapasitas'],
                 'kategori' => $_POST['kategori'],
                 'status' => $_POST['status']
             ];
@@ -83,8 +81,6 @@ class EventController {
                 'deskripsi' => $_POST['deskripsi'],
                 'tanggal_event' => $_POST['tanggal_event'],
                 'lokasi' => $_POST['lokasi'],
-                'harga_tiket' => $_POST['harga_tiket'],
-                'kapasitas' => $_POST['kapasitas'],
                 'kategori' => $_POST['kategori'],
                 'status' => $_POST['status']
             ];

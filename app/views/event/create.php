@@ -27,17 +27,7 @@
             </div>
         </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label class="form-label">Harga Tiket (Rp) <span style="color: red;">*</span></label>
-                <input type="number" name="harga_tiket" class="form-control" placeholder="250000" min="0" step="1000" required>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Kapasitas (Orang) <span style="color: red;">*</span></label>
-                <input type="number" name="kapasitas" class="form-control" placeholder="5000" min="1" required>
-            </div>
-        </div>
+        <!-- Harga dan kapasitas sekarang ditangani di menu Tiket -->
 
         <div class="form-row">
             <div class="form-group">

@@ -211,8 +211,7 @@
                         <strong><?= htmlspecialchars($event['nama_event']) ?></strong>
                     </td>
                     <td><?= date('d M Y', strtotime($event['tanggal_event'])) ?></td>
-                    <td style="color: #10b981; font-weight: bold;">Rp
-                        <?= number_format($event['harga_tiket'], 0, ',', '.') ?></td>
+                    <td style="color: #10b981; font-weight: bold;">-</td>
                     <td>
                         <span class="badge"
                             style="background: <?= $event['status'] == 'Aktif' ? '#10b981' : '#6c757d' ?>; padding: 6px 12px; border-radius: 4px; color: white; font-size: 12px;">
@@ -260,8 +259,7 @@
                         <strong><?= htmlspecialchars($event['nama_event']) ?></strong>
                     </td>
                     <td><?= date('d M Y', strtotime($event['tanggal_event'])) ?></td>
-                    <td style="color: #10b981; font-weight: bold;">Rp
-                        <?= number_format($event['harga_tiket'], 0, ',', '.') ?></td>
+                    <td style="color: #10b981; font-weight: bold;">-</td>
                     <td>
                         <span class="badge"
                             style="background: <?= $event['status'] == 'Aktif' ? '#10b981' : '#6c757d' ?>; padding: 6px 12px; border-radius: 4px; color: white; font-size: 12px;">

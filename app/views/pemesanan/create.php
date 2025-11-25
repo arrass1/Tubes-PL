@@ -13,12 +13,12 @@
 <div class="form-card">
     <form method="POST" action="index.php?module=pemesanan&action=store">
         <div class="form-group">
-            <label class="form-label" for="event_id">Pilih Event <span style="color: red;">*</span></label>
-            <select id="event_id" name="event_id" class="form-select" required onchange="updatePrice()">
-                <option value="">-- Pilih Event --</option>
-                <?php foreach ($events as $event): ?>
-                    <option value="<?= $event['id'] ?>" data-price="<?= $event['harga_tiket'] ?>">
-                        <?= htmlspecialchars($event['nama_event']) ?> - Rp <?= number_format($event['harga_tiket'], 0, ',', '.') ?>
+            <label class="form-label" for="tiket_id">Pilih Tiket <span style="color: red;">*</span></label>
+            <select id="tiket_id" name="tiket_id" class="form-select" required onchange="updatePrice()">
+                <option value="">-- Pilih Tiket --</option>
+                <?php foreach ($tickets as $tiket): ?>
+                    <option value="<?= $tiket['id'] ?>" data-price="<?= $tiket['harga'] ?>">
+                        <?= htmlspecialchars($tiket['nama_event']) ?> - <?= htmlspecialchars($tiket['nama_tiket']) ?> - Rp <?= number_format($tiket['harga'], 0, ',', '.') ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -54,7 +54,7 @@
 
 <script>
     function updatePrice() {
-        const eventSelect = document.getElementById('event_id');
+        const eventSelect = document.getElementById('tiket_id');
         const jumlahInput = document.getElementById('jumlah_tiket');
         const hargaInput = document.getElementById('harga_tiket');
         const totalInput = document.getElementById('total_harga');

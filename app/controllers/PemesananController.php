@@ -3,13 +3,16 @@ class PemesananController {
     private $db;
     private $pemesananModel;
     private $eventModel;
+    private $tiketModel;
 
     public function __construct($db) {
         $this->db = $db;
         require_once __DIR__ . '/../models/PemesananModel.php';
         require_once __DIR__ . '/../models/EventModel.php';
+        require_once __DIR__ . '/../models/TiketModel.php';
         $this->pemesananModel = new PemesananModel($db);
         $this->eventModel = new EventModel($db);
+        $this->tiketModel = new TiketModel($db);
     }
 
     // Display all orders (for admin)
@@ -37,7 +40,8 @@ class PemesananController {
 
         $module = 'pemesanan';
         $pageTitle = 'Buat Pesanan';
-        $events = $this->eventModel->getAllEvents();
+        // Show available tickets (each ticket includes event name)
+        $tickets = $this->tiketModel->getAllTiket();
         
         include __DIR__ . '/../views/layout/header.php';
         include __DIR__ . '/../views/pemesanan/create.php';
@@ -51,26 +55,26 @@ class PemesananController {
             exit;
         }
 
-        $event_id = isset($_POST['event_id']) ? (int)$_POST['event_id'] : null;
+        $tiket_id = isset($_POST['tiket_id']) ? (int)$_POST['tiket_id'] : null;
         $jumlah_tiket = isset($_POST['jumlah_tiket']) ? (int)$_POST['jumlah_tiket'] : 0;
 
-        if (!$event_id || $jumlah_tiket <= 0) {
+        if (!$tiket_id || $jumlah_tiket <= 0) {
             header('Location: index.php?module=pemesanan&action=create&error=invalid');
             exit;
         }
 
-        // Get event details
-        $event = $this->eventModel->getEventById($event_id);
-        if (!$event) {
-            header('Location: index.php?module=pemesanan&action=create&error=event_not_found');
+        // Get tiket details
+        $tiket = $this->tiketModel->getTiketById($tiket_id);
+        if (!$tiket) {
+            header('Location: index.php?module=pemesanan&action=create&error=tiket_not_found');
             exit;
         }
 
-        $total_harga = $event['harga_tiket'] * $jumlah_tiket;
+        $total_harga = $tiket['harga'] * $jumlah_tiket;
 
         $data = [
             'customer_id' => $_SESSION['user_id'],
-            'event_id' => $event_id,
+            'tiket_id' => $tiket_id,
             'jumlah_tiket' => $jumlah_tiket,
             'total_harga' => $total_harga
         ];
