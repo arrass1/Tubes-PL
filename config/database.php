@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'event_management';
+    private $db_name = 'dummy_event';
     private $username = 'root';
     private $password = '';
     private $conn;
