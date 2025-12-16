@@ -4,7 +4,7 @@
 </div>
 
 <?php if (isset($_GET['success'])): ?>
-    <div class="alert" style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+    <div class="alert alert-success">
         <i class="fas fa-check-circle"></i>
         <?php
         if ($_GET['success'] === 'approved') echo 'Pesanan berhasil disetujui!';
@@ -15,7 +15,7 @@
 <?php endif; ?>
 
 <?php if (isset($_GET['error'])): ?>
-    <div class="alert" style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #dc3545;">
+    <div class="alert alert-error">
         <i class="fas fa-exclamation-circle"></i>
         Terjadi kesalahan!
     </div>
@@ -44,7 +44,7 @@
             <tbody>
                 <?php if (empty($pemesanan)): ?>
                     <tr>
-                        <td colspan="9" style="text-align: center; color: #999;">Tidak ada pesanan</td>
+                        <td colspan="9" style="text-align: center; color: var(--muted-color);">Tidak ada pesanan</td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($pemesanan as $index => $p): ?>
@@ -54,7 +54,7 @@
                         <td><?= htmlspecialchars($p['customer_nama']) ?></td>
                         <td><?= htmlspecialchars($p['nama_event'] ?? '-') ?></td>
                         <td style="text-align: center;"><?= $p['jumlah_tiket'] ?></td>
-                        <td style="color: #10b981; font-weight: bold;">Rp <?= number_format($p['total_harga'], 0, ',', '.') ?></td>
+                        <td style="color: var(--muted-color); font-weight: bold;">Rp <?= number_format($p['total_harga'], 0, ',', '.') ?></td>
                         <td>
                             <span class="badge" style="padding: 6px 12px; border-radius: 4px; color: white; font-size: 12px; background: <?php
                                 if ($p['status'] === 'Pending') echo '#ffc107';

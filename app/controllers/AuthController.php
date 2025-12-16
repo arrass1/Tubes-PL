@@ -49,7 +49,6 @@ class AuthController {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['nama'];
             $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_role'] = 'customer';
             $_SESSION['user_type'] = $user['role'];
 
             header('Location: index.php?page=landing&success=login');
@@ -96,8 +95,6 @@ class AuthController {
         $password = isset($_POST['password']) ? $_POST['password'] : '';
         $confirm_password = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
         $no_telepon = isset($_POST['no_telepon']) ? trim($_POST['no_telepon']) : '';
-        // All new registrations default to customer
-        $role = 'customer';
 
         // Validation
         if (empty($nama) || empty($email) || empty($password) || empty($confirm_password)) {
@@ -132,14 +129,13 @@ class AuthController {
         }
 
         // Insert new customer
-        $query = "INSERT INTO customers (nama, email, password, no_telepon, role) 
-                  VALUES (:nama, :email, :password, :no_telepon, :role)";
+        $query = "INSERT INTO customers (nama, email, password, no_telepon) 
+                  VALUES (:nama, :email, :password, :no_telepon)";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':nama', $nama);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $password);
         $stmt->bindParam(':no_telepon', $no_telepon);
-        $stmt->bindParam(':role', $role);
 
         if ($stmt->execute()) {
             header('Location: index.php?page=login&success=registered');

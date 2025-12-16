@@ -43,7 +43,7 @@
             <tbody>
                 <?php if (empty($tiket)): ?>
                     <tr>
-                        <td colspan="7" style="text-align: center; color: #999;">
+                        <td colspan="7" style="text-align: center; color: var(--muted-color);">
                             <i class="fas fa-inbox"></i> Tidak ada data tiket
                         </td>
                     </tr>

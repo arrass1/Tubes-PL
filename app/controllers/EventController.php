@@ -145,19 +145,42 @@ class EventController {
     // Delete event
     public function delete() {
         if (isset($_GET['id'])) {
-            // Get event to delete image
-            $event = $this->eventModel->getEventById($_GET['id']);
-            if ($event && $event['image']) {
-                $this->eventModel->deleteImage($event['image']);
-            }
+                // Load required models
+                require_once __DIR__ . '/../models/PemesananModel.php';
+                $pemesananModel = new PemesananModel($this->db);
 
-            if ($this->eventModel->deleteEvent($_GET['id'])) {
-                header('Location: index.php?module=event&message=success_delete');
-                exit();
-            } else {
-                header('Location: index.php?module=event&message=error_delete');
-                exit();
-            }
+                // Get event to inspect status and delete image
+                $event = $this->eventModel->getEventById($_GET['id']);
+
+                // If admin tries to delete, allow only when event status is Selesai or Dibatalkan
+                if (isset($_SESSION['admin_role'])) {
+                    $allowed = ['Selesai', 'Dibatalkan'];
+                    if (!$event || !in_array($event['status'] ?? '', $allowed)) {
+                        header('Location: index.php?module=event&message=error_delete_not_allowed_status');
+                        exit();
+                    }
+                }
+
+                // prevent deletion if there are orders referencing tickets of this event,
+                // unless the event status is Selesai or Dibatalkan (then allow deletion)
+                $eventStatus = $event['status'] ?? '';
+                $allowed = ['Selesai', 'Dibatalkan'];
+                if ($pemesananModel->hasOrdersForEvent($_GET['id']) && !in_array($eventStatus, $allowed)) {
+                    header('Location: index.php?module=event&message=error_delete_has_orders');
+                    exit();
+                }
+
+                if ($event && $event['image']) {
+                    $this->eventModel->deleteImage($event['image']);
+                }
+
+                if ($this->eventModel->deleteEvent($_GET['id'])) {
+                    header('Location: index.php?module=event&message=success_delete');
+                    exit();
+                } else {
+                    header('Location: index.php?module=event&message=error_delete');
+                    exit();
+                }
         }
     }
 
@@ -199,11 +222,11 @@ class EventController {
 
         // Get events for public listing
         if (isset($_GET['kategori']) && !empty($_GET['kategori'])) {
-            // Filter by category
+            // Filter by category (only active/upcoming events)
             $events = $this->eventModel->getEventsByCategory($_GET['kategori']);
         } else {
-            // Show all events
-            $events = $this->eventModel->getAllEvents();
+            // Show only active/upcoming events to public
+            $events = $this->eventModel->getActiveEvents();
         }
 
         // Load tiket model to determine price info for each event

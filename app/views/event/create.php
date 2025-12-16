@@ -25,7 +25,7 @@
             <div class="form-group">
                 <label class="form-label">Tanggal Event <span style="color: red;">*</span></label>
                 <input type="date" name="tanggal_event" class="form-control" id="tanggalEvent" required>
-                <small class="text-muted" style="color: #dc3545;">Tanggal harus hari ini atau setelahnya</small>
+                <small class="text-muted text-danger">Tanggal harus hari ini atau setelahnya</small>
             </div>
 
             <div class="form-group">

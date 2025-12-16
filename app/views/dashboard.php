@@ -52,7 +52,8 @@
 <div class="table-card">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h5 style="margin: 0;"><i class="fas fa-shopping-cart"></i> Pesanan Terbaru</h5>
-        <a href="index.php?module=pemesanan" style="color: #7c3aed; text-decoration: none; font-size: 14px;">
+        <a href="index.php?module=pemesanan"
+            style="color: var(--primary-color); text-decoration: none; font-size: 14px;">
             Lihat Semua Pesanan <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
         </a>
     </div>
@@ -74,7 +75,7 @@
             <tbody>
                 <?php if (empty($recentPemesanan)): ?>
                 <tr>
-                    <td colspan="8" style="text-align: center; color: #999;">Tidak ada pesanan</td>
+                    <td colspan="8" style="text-align: center; color: var(--muted-color);">Tidak ada pesanan</td>
                 </tr>
                 <?php else: ?>
                 <?php foreach (array_slice($recentPemesanan, 0, 5) as $index => $p): ?>

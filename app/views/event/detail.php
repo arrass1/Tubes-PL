@@ -30,17 +30,17 @@
 
             <!-- Event Description -->
             <div style="margin-bottom: 30px;">
-                <h4 style="color: #333; margin-bottom: 15px; font-size: 18px;">
+                <h4 style="color: var(--text-color); margin-bottom: 15px; font-size: 18px;">
                     <i class="fas fa-info-circle"></i> Deskripsi Event
                 </h4>
-                <p style="color: #666; line-height: 1.8; text-align: justify;">
+                <p style="color: var(--muted-color); line-height: 1.8; text-align: justify;">
                     <?= nl2br(htmlspecialchars($event['deskripsi'])) ?>
                 </p>
             </div>
 
             <!-- Available Tickets -->
             <div style="margin-bottom: 30px;">
-                <h4 style="color: #333; margin-bottom: 15px; font-size: 18px;">
+                <h4 style="color: var(--text-color); margin-bottom: 15px; font-size: 18px;">
                     <i class="fas fa-ticket-alt"></i> Tiket Tersedia
                 </h4>
                 
@@ -52,15 +52,15 @@
                 <?php else: ?>
                     <div style="display: grid; gap: 15px;">
                         <?php foreach ($tiket as $t): ?>
-                            <div style="border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; background: #f9fafb;">
+                            <div style="border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; background: var(--card-bg);">
                                 <div>
-                                    <h5 style="color: #333; margin-bottom: 8px; font-size: 16px;">
+                                    <h5 style="color: var(--text-color); margin-bottom: 8px; font-size: 16px;">
                                         <?= htmlspecialchars($t['nama_tiket']) ?>
                                     </h5>
-                                    <div style="color: #10b981; font-size: 18px; font-weight: bold;">
+                                    <div style="color: var(--muted-color); font-size: 18px; font-weight: bold;">
                                         Rp <?= number_format($t['harga'], 0, ',', '.') ?>
                                     </div>
-                                    <div style="color: #666; font-size: 13px; margin-top: 5px;">
+                                    <div style="color: var(--muted-color); font-size: 13px; margin-top: 5px;">
                                         <i class="fas fa-users"></i> Stok: <?= $t['stok'] ?> tiket
                                     </div>
                                 </div>

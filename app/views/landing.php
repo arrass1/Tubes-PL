@@ -91,12 +91,12 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_COLUMN);
 
 <body style="margin: 0; padding: 0;">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom"
-        style="box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin: 0; padding: 0.5rem 0;">
+    <nav class="navbar navbar-expand-lg"
+        style="background:var(--card-bg); box-shadow: 0 6px 24px var(--shadow-color); margin: 0; padding: 0.5rem 0;">
         <div class="container">
             <a class="navbar-brand" href="index.php?page=landing">
                 <i class="fas fa-compact-disc" style="color: #7c3aed;"></i>
-                <span style="color: #333;">Konzert</span>
+                <span style="color: var(--text-color);">Konzert</span>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -108,10 +108,11 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_COLUMN);
                 <!-- MENU KIRI -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" style="color: #333;" href="index.php?page=landing">Home</a>
+                        <a class="nav-link" style="color: var(--text-color);" href="index.php?page=landing">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" style="color: #333;" href="index.php?module=event&action=public">Events</a>
+                        <a class="nav-link" style="color: var(--text-color);"
+                            href="index.php?module=event&action=public">Events</a>
                     </li>
                 </ul>
 
@@ -119,7 +120,7 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_COLUMN);
                 <div class="ms-auto d-flex align-items-center">
                     <?php if (isset($_SESSION['user_id'])): ?>
                     <!-- User Login Info -->
-                    <span class="me-3" style="color: #333; font-size: 14px; display: inline-block;">
+                    <span class="me-3" style="color: var(--text-color); font-size: 14px; display: inline-block;">
                         <i class="fas fa-user-circle"></i>
                         <?= htmlspecialchars($_SESSION['user_name']) ?>
                     </span>
@@ -197,15 +198,6 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_COLUMN);
                     </div>
                 </div>
             </div>
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    <div class="feature-card">
-                        <i class="fas fa-headset"></i>
-                        <h3>Support 24/7</h3>
-                        <p>Tim support kami siap membantu Anda kapan saja</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -224,7 +216,8 @@ $categories = $categoriesQuery->fetchAll(PDO::FETCH_COLUMN);
                 <div class="col-md-3">
                     <div class="footer-section">
                         <h4>Konzert</h4>
-                        <p style="color: #999; font-size: 14px;">Platform terpercaya untuk event dan tiket terbaik</p>
+                        <p style="color: var(--muted-color); font-size: 14px;">Platform terpercaya untuk event dan tiket
+                            terbaik</p>
                     </div>
                 </div>
                 <div class="col-md-3">

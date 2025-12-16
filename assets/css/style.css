@@ -3,6 +3,13 @@
     --navbar-bg: #9333ea;
     --primary-dark: #7e22ce;
     --navbar-height: 70px;
+    /* Dark mode variables */
+    --dark-bg: #0b1020;
+    --card-bg: #0f1724;
+    --text-color: #e5e7eb;
+    --muted-color: #9ca3af;
+    --border-color: rgba(255,255,255,0.04);
+    --shadow-color: rgba(0,0,0,0.6);
 }
 
 * {
@@ -18,7 +25,8 @@ html, body {
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    background-color: var(--dark-bg);
+    color: var(--text-color);
     padding-top: 0;
     margin-top: 0;
 }
@@ -91,12 +99,12 @@ body {
 }
 
 .nav-menu-link:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
     color: white;
 }
 
 .nav-menu-link.active {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
     color: white;
     font-weight: 600;
 }
@@ -114,7 +122,7 @@ body {
     font-size: 14px;
     white-space: nowrap;
     padding: 8px 15px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
     border-radius: 20px;
 }
 
@@ -166,7 +174,7 @@ body {
 .page-title {
     font-size: 28px;
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
 }
 
 /* Search Box */
@@ -178,7 +186,7 @@ body {
 .search-box input {
     border-radius: 25px;
     padding-left: 45px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     width: 100%;
 }
 
@@ -187,7 +195,7 @@ body {
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #999;
+    color: var(--muted-color);
 }
 
 /* Buttons */
@@ -270,9 +278,9 @@ body {
 
 /* Forms */
 .form-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 6px 24px var(--shadow-color);
     padding: 30px;
     max-width: 900px;
 }
@@ -283,14 +291,14 @@ body {
 
 .form-label {
     font-weight: 600;
-    color: #333;
+    color: var(--text-color);
     margin-bottom: 8px;
     display: block;
 }
 
 .form-control,
 .form-select {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 10px 15px;
     width: 100%;
@@ -312,9 +320,9 @@ body {
 
 /* Tables */
 .table-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 6px 24px var(--shadow-color);
     overflow: hidden;
     margin-bottom: 30px;
 }
@@ -329,24 +337,24 @@ table {
 }
 
 table thead {
-    background: #f8f9fa;
-    border-bottom: 2px solid #ddd;
+    background: transparent;
+    border-bottom: 2px solid var(--border-color);
 }
 
 table th {
     padding: 15px;
     text-align: left;
     font-weight: 600;
-    color: #333;
+    color: var(--text-color);
 }
 
 table td {
     padding: 15px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
 }
 
 table tbody tr:hover {
-    background: #f8f9fa;
+    background: rgba(255,255,255,0.02);
 }
 
 table tbody tr:last-child td {
@@ -355,10 +363,10 @@ table tbody tr:last-child td {
 
 /* Stats Cards */
 .stats-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 15px;
     padding: 25px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 6px 24px var(--shadow-color);
     transition: transform 0.3s;
     display: flex;
     align-items: center;
@@ -387,7 +395,7 @@ table tbody tr:last-child td {
 }
 
 .stats-card p {
-    color: #6c757d;
+    color: var(--muted-color);
     margin: 0;
     font-size: 14px;
 }
@@ -424,15 +432,31 @@ table tbody tr:last-child td {
 }
 
 .alert-success {
-    background: #d1fae5;
-    color: #065f46;
-    border: 1px solid #6ee7b7;
+    background: rgba(40,167,69,0.06);
+    color: var(--text-color);
+    border: 1px solid rgba(72,187,120,0.12);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35) inset;
 }
 
 .alert-error {
-    background: #fee2e2;
-    color: #7f1d1d;
-    border: 1px solid #fca5a5;
+    background: rgba(220,53,69,0.06);
+    color: var(--text-color);
+    border: 1px solid rgba(220,53,69,0.12);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35) inset;
+}
+
+/* Small utility/info box for forms */
+.info-box {
+    background: rgba(59,130,246,0.06);
+    border: 1px solid rgba(59,130,246,0.12);
+    border-radius: 5px;
+    padding: 12px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.text-danger {
+    color: #f87171;
 }
 
 /* Modal & Confirmation */
@@ -454,16 +478,16 @@ table tbody tr:last-child td {
 }
 
 .modal-content {
-    background: white;
+    background: var(--card-bg);
     padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 60px var(--shadow-color);
 }
 
 /* Landing Page Styles */
 .navbar {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    background: var(--card-bg);
+    box-shadow: 0 6px 24px var(--shadow-color);
     padding: 15px 0;
 }
 
@@ -481,7 +505,7 @@ table tbody tr:last-child td {
 
 .navbar-nav .nav-link {
     margin: 0 10px;
-    color: #333 !important;
+    color: var(--text-color) !important;
     transition: color 0.3s;
     font-size: 14px;
 }
@@ -509,7 +533,7 @@ table tbody tr:last-child td {
 }
 
 .btn-register {
-    background: white;
+    background: var(--card-bg);
     color: #7c3aed;
     border: 2px solid #7c3aed;
     padding: 8px 20px;
@@ -543,7 +567,7 @@ table tbody tr:last-child td {
     right: -10%;
     width: 500px;
     height: 500px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
     border-radius: 50%;
 }
 
@@ -578,7 +602,7 @@ table tbody tr:last-child td {
 }
 
 .btn-cta-primary {
-    background: white;
+    background: var(--card-bg);
     color: #667eea;
 }
 
@@ -588,20 +612,20 @@ table tbody tr:last-child td {
 }
 
 .btn-cta-secondary {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
     color: white;
-    border: 2px solid white;
+    border: 2px solid rgba(255,255,255,0.08);
 }
 
 .btn-cta-secondary:hover {
-    background: white;
+    background: rgba(255,255,255,0.06);
     color: #667eea;
 }
 
 /* Features Section */
 .features {
     padding: 80px 0;
-    background: white;
+    background: var(--dark-bg);
 }
 
 .section-title {
@@ -609,7 +633,7 @@ table tbody tr:last-child td {
     font-size: 36px;
     font-weight: bold;
     margin-bottom: 50px;
-    color: #333;
+    color: var(--text-color);
 }
 
 .feature-card {
@@ -617,12 +641,12 @@ table tbody tr:last-child td {
     padding: 30px;
     border-radius: 10px;
     transition: all 0.3s;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
 }
 
 .feature-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 60px var(--shadow-color);
     border-color: #7c3aed;
 }
 
@@ -635,25 +659,25 @@ table tbody tr:last-child td {
 .feature-card h3 {
     font-weight: bold;
     margin-bottom: 15px;
-    color: #333;
+    color: var(--text-color);
 }
 
 .feature-card p {
-    color: #666;
+    color: var(--muted-color);
     line-height: 1.6;
 }
 
 /* Events Section */
 .events {
     padding: 80px 0;
-    background: #f8f9fa;
+    background: var(--dark-bg);
 }
 
 .event-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 30px var(--shadow-color);
     transition: all 0.3s ease;
     margin-bottom: 30px;
     display: flex;
@@ -694,6 +718,52 @@ table tbody tr:last-child td {
     z-index: 1;
 }
 
+/* Event listing specific tweaks for dark theme */
+.filter-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.filter-section h5 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+.category-filter-wrapper .category-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 8px;
+    margin-bottom: 10px;
+    background: var(--card-bg);
+    color: var(--muted-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4) inset;
+}
+.category-filter-wrapper .category-btn.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 6px 18px rgba(147,51,234,0.12);
+}
+
+.event-card .card-body {
+    background: rgba(0,0,0,0.25);
+    color: var(--muted-color);
+}
+.event-card .card-title {
+    color: var(--text-color);
+    font-weight: 700;
+}
+.event-card .card-text { color: var(--muted-color); }
+.event-card .btn-primary { margin-top: 12px; }
+
+/* Ensure badges and labels readable on dark backgrounds */
+.badge { color: white !important; }
+
 .event-info {
     padding: 24px;
     flex-grow: 1;
@@ -703,7 +773,7 @@ table tbody tr:last-child td {
 
 .event-info h4 {
     font-weight: 700;
-    color: #1f2937;
+    color: var(--text-color);
     margin-bottom: 12px;
     font-size: 18px;
     line-height: 1.4;
@@ -712,7 +782,7 @@ table tbody tr:last-child td {
 .event-date,
 .event-location,
 .event-price {
-    color: #6b7280;
+    color: var(--muted-color);
     font-size: 13px;
     margin-bottom: 10px;
     display: flex;
@@ -753,7 +823,7 @@ table tbody tr:last-child td {
 }
 
 .btn-order:disabled {
-    background: #d1d5db;
+    background: var(--border-color);
     cursor: not-allowed;
     transform: none;
 }
@@ -780,10 +850,11 @@ table tbody tr:last-child td {
 
 /* Footer */
 .footer {
-    background: #333;
-    color: white;
+    background: var(--card-bg);
+    color: var(--text-color);
     padding: 40px 0 20px;
-    text-align: center;
+    text-align: left;
+    border-top: 1px solid var(--border-color);
 }
 
 .footer-content {
@@ -800,7 +871,7 @@ table tbody tr:last-child td {
 }
 
 .footer-section a {
-    color: #ccc;
+    color: var(--muted-color);
     text-decoration: none;
     display: block;
     margin-bottom: 8px;
@@ -812,20 +883,22 @@ table tbody tr:last-child td {
 }
 
 .footer-bottom {
-    border-top: 1px solid #555;
+    border-top: 1px solid rgba(255,255,255,0.03);
     padding-top: 20px;
-    color: #999;
+    color: var(--muted-color);
 }
 
 /* Login & Register Styles */
 .login-container,
 .register-container {
-    background: white;
+    background: #0b1020;
     border-radius: 15px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
+    box-shadow: 0 30px 80px var(--shadow-color);
+    /* allow scrolling when viewport is small to prevent clipping */
+    overflow: auto;
     width: 100%;
     max-width: 450px;
+    max-height: calc(100vh - 40px);
     margin: 0 auto;
 }
 
@@ -880,7 +953,7 @@ table tbody tr:last-child td {
 .role-toggle {
     display: flex;
     margin-bottom: 20px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -889,10 +962,10 @@ table tbody tr:last-child td {
     flex: 1;
     padding: 10px;
     border: none;
-    background: white;
+    background: var(--card-bg);
     cursor: pointer;
     font-weight: 600;
-    color: #666;
+    color: var(--muted-color);
     transition: all 0.3s;
 }
 
@@ -920,20 +993,20 @@ table tbody tr:last-child td {
 .divider {
     text-align: center;
     margin: 20px 0;
-    color: #ccc;
+    color: var(--muted-color);
 }
 
 .login-footer,
 .register-footer {
     text-align: center;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid var(--border-color);
     padding-top: 20px;
     margin-top: 20px;
 }
 
 .login-footer p,
 .register-footer p {
-    color: #666;
+    color: var(--muted-color);
     font-size: 14px;
     margin-bottom: 15px;
 }
@@ -953,7 +1026,7 @@ table tbody tr:last-child td {
 .back-to-landing {
     display: inline-block;
     margin-bottom: 20px;
-    color: #000000ff;
+    color: var(--text-color);
     text-decoration: none;
     font-size: 14px;
 }
@@ -967,7 +1040,7 @@ table tbody tr:last-child td {
 }
 
 .form-select {
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     padding: 12px 15px;
     border-radius: 8px;
     font-size: 14px;
@@ -986,7 +1059,7 @@ table tbody tr:last-child td {
 }
 
 .form-check-input {
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     border-radius: 4px;
     cursor: pointer;
 }
@@ -999,20 +1072,22 @@ table tbody tr:last-child td {
 .form-check-label {
     margin-left: 8px;
     cursor: pointer;
-    color: #666;
+    color: var(--muted-color);
     font-size: 14px;
 }
 
 /* Login/Register Body */
 body.login-page,
 body.register-page {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #0b1020 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
     padding-top: 0;
+    /* ensure page becomes scrollable when content taller than viewport */
+    overflow-y: auto;
 }
 
 /* Responsive */
@@ -1134,6 +1209,7 @@ body.register-page {
     .login-container,
     .register-container {
         max-width: 100%;
+        max-height: none;
     }
 
     .form-row-login {
@@ -1192,13 +1268,13 @@ body.register-page {
 }
 
 .pagination .page-link {
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--border-color);
     color: #9333ea;
     cursor: pointer;
 }
 
 .pagination .page-link:hover {
-    background-color: #f3e8ff;
+    background-color: rgba(255,255,255,0.04);
     color: #7e22ce;
 }
 
@@ -1208,6 +1284,6 @@ body.register-page {
 }
 
 .pagination .page-item.disabled .page-link {
-    color: #6c757d;
+    color: var(--muted-color);
     cursor: not-allowed;
 }

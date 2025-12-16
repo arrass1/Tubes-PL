@@ -89,6 +89,33 @@ class TiketController {
 
     public function delete() {
         if (isset($_GET['id'])) {
+            // prevent deletion if there are orders referencing this ticket
+            require_once __DIR__ . '/../models/PemesananModel.php';
+            require_once __DIR__ . '/../models/EventModel.php';
+            $pemesananModel = new PemesananModel($this->db);
+            $eventModel = new EventModel($this->db);
+
+            // If admin tries to delete a ticket, allow only when parent event status is Selesai or Dibatalkan
+            $tiket = $this->tiketModel->getTiketById($_GET['id']);
+            $event = $tiket ? $eventModel->getEventById($tiket['event_id']) : null;
+
+            if (isset($_SESSION['admin_role'])) {
+                $allowed = ['Selesai', 'Dibatalkan'];
+                if (!$event || !in_array($event['status'] ?? '', $allowed)) {
+                    header('Location: index.php?module=tiket&message=error_delete_not_allowed_status');
+                    exit();
+                }
+            }
+
+            // prevent deletion if there are orders referencing this ticket,
+            // unless the parent event status is Selesai or Dibatalkan (then allow deletion)
+            $eventStatus = $event['status'] ?? '';
+            $allowed = ['Selesai', 'Dibatalkan'];
+            if ($pemesananModel->hasOrdersForTiket($_GET['id']) && !in_array($eventStatus, $allowed)) {
+                header('Location: index.php?module=tiket&message=error_delete_has_orders');
+                exit();
+            }
+
             if ($this->tiketModel->deleteTiket($_GET['id'])) {
                 header('Location: index.php?module=tiket&message=success_delete');
                 exit();

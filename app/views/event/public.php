@@ -4,18 +4,16 @@
 </div>
 
 <!-- Category Filter -->
-<div class="filter-section" style="margin-bottom: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
-    <h5 style="margin-bottom: 15px;"><i class="fas fa-filter"></i> Filter Kategori</h5>
+<div class="filter-section">
+    <h5><i class="fas fa-filter"></i> Filter Kategori</h5>
     <div class="category-filter-wrapper">
         <a href="index.php?module=event&action=public"
-            class="category-btn <?php echo empty($_GET['kategori']) ? 'active' : ''; ?>"
-            style="display: inline-block; padding: 10px 20px; margin-right: 8px; margin-bottom: 10px; background-color: <?php echo empty($_GET['kategori']) ? '#007bff' : '#e9ecef'; ?>; color: <?php echo empty($_GET['kategori']) ? '#fff' : '#495057'; ?>; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; transition: all 0.3s ease;">
+            class="category-btn <?php echo empty($_GET['kategori']) ? 'active' : ''; ?>">
             Semua
         </a>
         <?php foreach ($categories as $category): ?>
         <a href="index.php?module=event&action=public&kategori=<?php echo urlencode($category); ?>"
-            class="category-btn <?php echo (isset($_GET['kategori']) && $_GET['kategori'] === $category) ? 'active' : ''; ?>"
-            style="display: inline-block; padding: 10px 20px; margin-right: 8px; margin-bottom: 10px; background-color: <?php echo (isset($_GET['kategori']) && $_GET['kategori'] === $category) ? '#007bff' : '#e9ecef'; ?>; color: <?php echo (isset($_GET['kategori']) && $_GET['kategori'] === $category) ? '#fff' : '#495057'; ?>; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; transition: all 0.3s ease;">
+            class="category-btn <?php echo (isset($_GET['kategori']) && $_GET['kategori'] === $category) ? 'active' : ''; ?>">
             <?php echo htmlspecialchars($category); ?>
         </a>
         <?php endforeach; ?>

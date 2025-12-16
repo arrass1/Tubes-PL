@@ -1,71 +1,78 @@
 <?php
+require_once __DIR__ . '/../core/QueryBuilder.php';
+
 class TiketModel {
     private $conn;
+    private $builder;
     private $table = 'tiket';
 
     public function __construct($db) {
         $this->conn = $db;
+        $this->builder = new QueryBuilder($db);
     }
 
     // Get all tickets with event info
     public function getAllTiket() {
-        $query = "SELECT t.id, t.event_id, e.nama_event, t.nama_tiket, t.harga, t.stok, t.created_at FROM " . $this->table . " t LEFT JOIN events e ON t.event_id = e.id ORDER BY t.created_at DESC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->builder
+            ->table($this->table . ' t')
+            ->select(['t.id', 't.event_id', 'e.nama_event', 't.nama_tiket', 't.harga', 't.stok', 't.created_at'])
+            ->leftJoin('events e', 't.event_id = e.id')
+            ->orderBy('t.created_at', 'DESC')
+            ->get();
     }
 
     public function getTiketById($id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->builder
+            ->table($this->table)
+            ->where('id', '=', $id)
+            ->first();
     }
 
     public function createTiket($data) {
-        $query = "INSERT INTO " . $this->table . " (event_id, nama_tiket, harga, stok) VALUES (:event_id, :nama_tiket, :harga, :stok)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':event_id', $data['event_id']);
-        $stmt->bindParam(':nama_tiket', $data['nama_tiket']);
-        $stmt->bindParam(':harga', $data['harga']);
-        $stmt->bindParam(':stok', $data['stok']);
-        return $stmt->execute();
+        return $this->builder
+            ->table($this->table)
+            ->insert([
+                'event_id' => $data['event_id'],
+                'nama_tiket' => $data['nama_tiket'],
+                'harga' => $data['harga'],
+                'stok' => $data['stok']
+            ]);
     }
 
     public function updateTiket($id, $data) {
-        $query = "UPDATE " . $this->table . " SET event_id = :event_id, nama_tiket = :nama_tiket, harga = :harga, stok = :stok WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':event_id', $data['event_id']);
-        $stmt->bindParam(':nama_tiket', $data['nama_tiket']);
-        $stmt->bindParam(':harga', $data['harga']);
-        $stmt->bindParam(':stok', $data['stok']);
-        return $stmt->execute();
+        return $this->builder
+            ->table($this->table)
+            ->where('id', '=', $id)
+            ->update([
+                'event_id' => $data['event_id'],
+                'nama_tiket' => $data['nama_tiket'],
+                'harga' => $data['harga'],
+                'stok' => $data['stok']
+            ]);
     }
 
     public function deleteTiket($id) {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        return $this->builder
+            ->table($this->table)
+            ->where('id', '=', $id)
+            ->delete();
     }
 
     public function getTiketByEventId($event_id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE event_id = :event_id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':event_id', $event_id);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->builder
+            ->table($this->table)
+            ->where('event_id', '=', $event_id)
+            ->get();
     }
 
     // Reduce ticket stock
     public function reduceStok($tiket_id, $jumlah) {
+        // This operation requires atomic decrement with condition; perform with raw query to preserve behavior
         $query = "UPDATE " . $this->table . " SET stok = stok - :jumlah WHERE id = :tiket_id AND stok >= :jumlah";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':tiket_id', $tiket_id);
         $stmt->bindParam(':jumlah', $jumlah);
-        
+
         if ($stmt->execute()) {
             return $stmt->rowCount() > 0;
         }

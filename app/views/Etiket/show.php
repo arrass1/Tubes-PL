@@ -4,12 +4,12 @@
 </div>
 
 <div style="text-align: center; margin: 30px 0;">
-    <div style="background: #d4edda; padding: 20px; border-radius: 8px; display: inline-block; border-left: 4px solid #28a745;">
-        <i class="fas fa-check-circle" style="color: #155724; font-size: 24px;"></i>
-        <div style="color: #155724; font-weight: bold; margin-top: 10px; font-size: 18px;">
+    <div style="background: rgba(16,185,129,0.06); padding: 20px; border-radius: 8px; display: inline-block; border-left: 4px solid #10b981;">
+        <i class="fas fa-check-circle" style="color: var(--muted-color); font-size: 24px;"></i>
+        <div style="color: var(--muted-color); font-weight: bold; margin-top: 10px; font-size: 18px;">
             Pembayaran Berhasil!
         </div>
-        <div style="color: #155724; margin-top: 5px;">
+        <div style="color: var(--muted-color); margin-top: 5px;">
             Terima kasih telah melakukan pembayaran. E-Tiket Anda sudah siap.
         </div>
     </div>
@@ -41,12 +41,12 @@
             <!-- Ticket Body -->
             <div style="padding: 30px;">
                 <!-- QR Code Section -->
-                <div style="text-align: center; margin-bottom: 30px; padding: 25px; background: #f9fafb; border-radius: 12px; border: 2px dashed #cbd5e1;">
-                    <div style="width: 200px; height: 200px; margin: 0 auto; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <div style="text-align: center; margin-bottom: 30px; padding: 25px; background: var(--card-bg); border-radius: 12px; border: 2px dashed var(--border-color);">
+                        <div style="width: 200px; height: 200px; margin: 0 auto; background: var(--card-bg); padding: 15px; border-radius: 8px; box-shadow: 0 8px 20px var(--shadow-color);">
                         <!-- QR Code Placeholder -->
                         <div style="width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23000%22 width=%2210%22 height=%2210%22 x=%2210%22 y=%2210%22/><rect fill=%22%23000%22 width=%2210%22 height=%2210%22 x=%2230%22 y=%2210%22/><rect fill=%22%23000%22 width=%2210%22 height=%2210%22 x=%2250%22 y=%2210%22/><rect fill=%22%23000%22 width=%2210%22 height=%2210%22 x=%2210%22 y=%2230%22/><rect fill=%22%23000%22 width=%2210%22 height=%2210%22 x=%2250%22 y=%2230%22/><rect fill=%22%23000%22 width=%2210%22 height=%2210%22 x=%2210%22 y=%2250%22/><rect fill=%22%23000%22 width=%2210%22 height=%2210%22 x=%2230%22 y=%2250%22/><rect fill=%22%23000%22 width=%2210%22 height=%2210%22 x=%2250%22 y=%2250%22/></svg>') center/cover no-repeat;"></div>
                     </div>
-                    <div style="margin-top: 15px; font-size: 13px; color: #666;">
+                        <div style="margin-top: 15px; font-size: 13px; color: var(--muted-color);">
                         <i class="fas fa-qrcode"></i> Scan QR Code ini saat masuk event
                     </div>
                     <div style="margin-top: 10px; font-family: monospace; font-weight: bold; color: #7c3aed; font-size: 16px;">
@@ -57,34 +57,34 @@
                 <!-- Ticket Details -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 25px;">
                     <div>
-                        <div style="color: #999; font-size: 13px; margin-bottom: 5px;">Kode Booking</div>
-                        <div style="font-weight: bold; color: #333; font-family: monospace;">
+                        <div style="color: var(--muted-color); font-size: 13px; margin-bottom: 5px;">Kode Booking</div>
+                        <div style="font-weight: bold; color: var(--text-color); font-family: monospace;">
                             <?= htmlspecialchars($tiket['kode_booking']) ?>
                         </div>
                     </div>
                     <div>
-                        <div style="color: #999; font-size: 13px; margin-bottom: 5px;">Tanggal Pembayaran</div>
-                        <div style="font-weight: bold; color: #333;">
+                        <div style="color: var(--muted-color); font-size: 13px; margin-bottom: 5px;">Tanggal Pembayaran</div>
+                        <div style="font-weight: bold; color: var(--text-color);">
                             <?= date('d M Y, H:i', strtotime($tiket['tanggal_bayar'])) ?>
                         </div>
                     </div>
                     <div>
-                        <div style="color: #999; font-size: 13px; margin-bottom: 5px;">Nama Pemesan</div>
-                        <div style="font-weight: bold; color: #333;">
+                        <div style="color: var(--muted-color); font-size: 13px; margin-bottom: 5px;">Nama Pemesan</div>
+                        <div style="font-weight: bold; color: var(--text-color);">
                             <?= htmlspecialchars($tiket['customer_nama']) ?>
                         </div>
                     </div>
                     <div>
-                        <div style="color: #999; font-size: 13px; margin-bottom: 5px;">Email</div>
-                        <div style="font-weight: bold; color: #333;">
+                        <div style="color: var(--muted-color); font-size: 13px; margin-bottom: 5px;">Email</div>
+                        <div style="font-weight: bold; color: var(--text-color);">
                             <?= htmlspecialchars($tiket['customer_email']) ?>
                         </div>
                     </div>
                 </div>
 
                 <!-- Event Details -->
-                <div style="border-top: 2px solid #e5e7eb; padding-top: 25px; margin-top: 25px;">
-                    <h4 style="color: #333; margin-bottom: 20px; font-size: 16px;">
+                <div style="border-top: 2px solid var(--border-color); padding-top: 25px; margin-top: 25px;">
+                    <h4 style="color: var(--text-color); margin-bottom: 20px; font-size: 16px;">
                         <i class="fas fa-info-circle"></i> Detail Event
                     </h4>
                     <div style="display: grid; gap: 15px;">
@@ -93,8 +93,8 @@
                                 <i class="fas fa-calendar-alt"></i>
                             </div>
                             <div>
-                                <div style="color: #999; font-size: 13px;">Tanggal Event</div>
-                                <div style="font-weight: bold; color: #333;">
+                                <div style="color: var(--muted-color); font-size: 13px;">Tanggal Event</div>
+                                <div style="font-weight: bold; color: var(--text-color);">
                                     <?= date('l, d F Y', strtotime($tiket['tanggal_event'])) ?>
                                 </div>
                             </div>
@@ -104,19 +104,19 @@
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <div>
-                                <div style="color: #999; font-size: 13px;">Lokasi</div>
-                                <div style="font-weight: bold; color: #333;">
+                                <div style="color: var(--muted-color); font-size: 13px;">Lokasi</div>
+                                <div style="font-weight: bold; color: var(--text-color);">
                                     <?= htmlspecialchars($tiket['lokasi']) ?>
                                 </div>
                             </div>
                         </div>
                         <div style="display: flex; gap: 15px;">
-                            <div style="color: #10b981; width: 30px;">
+                            <div style="color: var(--muted-color); width: 30px;">
                                 <i class="fas fa-ticket-alt"></i>
                             </div>
                             <div>
-                                <div style="color: #999; font-size: 13px;">Jenis Tiket</div>
-                                <div style="font-weight: bold; color: #333;">
+                                <div style="color: var(--muted-color); font-size: 13px;">Jenis Tiket</div>
+                                <div style="font-weight: bold; color: var(--text-color);">
                                     <?= htmlspecialchars($tiket['nama_tiket']) ?> (<?= $tiket['jumlah_tiket'] ?> Tiket)
                                 </div>
                             </div>
@@ -126,8 +126,8 @@
                                 <i class="fas fa-credit-card"></i>
                             </div>
                             <div>
-                                <div style="color: #999; font-size: 13px;">Metode Pembayaran</div>
-                                <div style="font-weight: bold; color: #333;">
+                                <div style="color: var(--muted-color); font-size: 13px;">Metode Pembayaran</div>
+                                <div style="font-weight: bold; color: var(--text-color);">
                                     <?= htmlspecialchars($tiket['metode_pembayaran']) ?>
                                 </div>
                             </div>
@@ -136,19 +136,19 @@
                 </div>
 
                 <!-- Total -->
-                <div style="border-top: 2px solid #e5e7eb; margin-top: 25px; padding-top: 25px; text-align: right;">
-                    <div style="color: #999; font-size: 14px; margin-bottom: 5px;">Total Pembayaran</div>
+                <div style="border-top: 2px solid var(--border-color); margin-top: 25px; padding-top: 25px; text-align: right;">
+                    <div style="color: var(--muted-color); font-size: 14px; margin-bottom: 5px;">Total Pembayaran</div>
                     <div style="font-size: 28px; font-weight: bold; color: #10b981;">
                         Rp <?= number_format($tiket['total_harga'], 0, ',', '.') ?>
                     </div>
                 </div>
 
                 <!-- Important Notes -->
-                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; border-radius: 8px; margin-top: 30px;">
-                    <h5 style="color: #856404; margin-bottom: 12px; font-size: 14px;">
+                <div style="background: rgba(245,158,11,0.06); border-left: 4px solid #f59e0b; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                    <h5 style="color: #f59e0b; margin-bottom: 12px; font-size: 14px;">
                         <i class="fas fa-exclamation-triangle"></i> Penting!
                     </h5>
-                    <ul style="margin: 0; padding-left: 20px; color: #856404; font-size: 13px; line-height: 1.8;">
+                    <ul style="margin: 0; padding-left: 20px; color: #f59e0b; font-size: 13px; line-height: 1.8;">
                         <li>Simpan e-tiket ini dengan baik</li>
                         <li>Tunjukkan QR Code saat masuk lokasi event</li>
                         <li>Datang 30 menit sebelum event dimulai</li>

@@ -5,12 +5,12 @@
 
 <?php if (isset($_GET['error'])): ?>
     <?php if ($_GET['error'] === 'insufficient_stock'): ?>
-        <div class="alert" style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #dc3545;">
+        <div class="alert alert-error">
             <i class="fas fa-exclamation-circle"></i>
             <strong>Stok Tidak Cukup!</strong> Jumlah tiket yang Anda pesan melebihi stok yang tersedia. Silakan kurangi jumlah tiket.
         </div>
     <?php else: ?>
-        <div class="alert" style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #dc3545;">
+        <div class="alert alert-error">
             <i class="fas fa-exclamation-circle"></i>
             Terjadi kesalahan!
         </div>
@@ -53,7 +53,7 @@
                         <label class="form-label">Tipe Tiket</label>
                         <input type="text" class="form-control" value="<?= htmlspecialchars($tickets[0]['nama_tiket']) ?>" readonly>
                     </div>
-                    <div style="background-color: #f0f9ff; border: 1px solid #3b82f6; border-radius: 5px; padding: 12px; margin-bottom: 15px; color: #1e40af;">
+                    <div class="info-box">
                         <i class="fas fa-info-circle"></i> Stok Tersedia: <strong><?= $tickets[0]['stok'] ?></strong> tiket
                     </div>
                 <?php endif; ?>
@@ -62,7 +62,7 @@
                     <div class="form-group">
                         <label class="form-label" for="jumlah_tiket">Jumlah Tiket <span style="color: red;">*</span></label>
                         <input type="number" id="jumlah_tiket" name="jumlah_tiket" class="form-control" min="1" value="1" placeholder="Masukkan jumlah tiket" required onchange="updatePrice()" oninput="updatePrice()">
-                        <small id="stok_info" class="text-muted" style="color: #dc3545; font-weight: bold; display: none;"></small>
+                        <small id="stok_info" class="text-muted text-danger" style="font-weight: bold; display: none;"></small>
                     </div>
 
                     <div class="form-group">
@@ -73,7 +73,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Total Harga</label>
-                    <input type="text" id="total_harga" class="form-control" readonly placeholder="Rp 0" style="font-size: 18px; font-weight: bold; color: #10b981;">
+                    <input type="text" id="total_harga" class="form-control" readonly placeholder="Rp 0" style="font-size: 18px; font-weight: bold; color: var(--muted-color);">
                 </div>
 
                 <div style="margin-top: 30px;">

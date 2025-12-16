@@ -1,100 +1,93 @@
 <?php
+require_once __DIR__ . '/../core/QueryBuilder.php';
+
 class PemesananModel {
     private $conn;
+    private $builder;
     private $table = 'pemesanan';
 
     public function __construct($db) {
         $this->conn = $db;
+        $this->builder = new QueryBuilder($db);
     }
 
     // Get all orders
     public function getAllPemesanan() {
-        // Join pemesanan -> tiket -> event to get event and ticket info
-        $query = "SELECT p.*, t.nama_tiket, t.harga AS tiket_harga, e.nama_event, e.tanggal_event, c.nama as customer_nama, c.email as customer_email 
-                  FROM " . $this->table . " p
-                  LEFT JOIN tiket t ON p.tiket_id = t.id
-                  LEFT JOIN events e ON t.event_id = e.id
-                  LEFT JOIN customers c ON p.customer_id = c.id
-                  ORDER BY p.tanggal_pemesanan DESC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->builder
+            ->table($this->table . ' p')
+            ->select(['p.*', 't.nama_tiket', 't.harga AS tiket_harga', 'e.nama_event', 'e.tanggal_event', 'c.nama as customer_nama', 'c.email as customer_email'])
+            ->leftJoin('tiket t', 'p.tiket_id = t.id')
+            ->leftJoin('events e', 't.event_id = e.id')
+            ->leftJoin('customers c', 'p.customer_id = c.id')
+            ->orderBy('p.tanggal_pemesanan', 'DESC')
+            ->get();
     }
 
     // Get order by ID
     public function getPemesananById($id) {
-        $query = "SELECT p.*, t.nama_tiket, t.harga AS tiket_harga, e.nama_event, c.nama as customer_nama, c.email as customer_email 
-                  FROM " . $this->table . " p
-                  LEFT JOIN tiket t ON p.tiket_id = t.id
-                  LEFT JOIN events e ON t.event_id = e.id
-                  LEFT JOIN customers c ON p.customer_id = c.id
-                  WHERE p.id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $this->builder
+            ->table($this->table . ' p')
+            ->select(['p.*', 't.nama_tiket', 't.harga AS tiket_harga', 'e.nama_event', 'c.nama as customer_nama', 'c.email as customer_email'])
+            ->leftJoin('tiket t', 'p.tiket_id = t.id')
+            ->leftJoin('events e', 't.event_id = e.id')
+            ->leftJoin('customers c', 'p.customer_id = c.id')
+            ->where('p.id', '=', $id)
+            ->first();
     }
 
     // Get orders by customer
     public function getPemesananByCustomer($customer_id) {
-        $query = "SELECT p.*, t.nama_tiket, t.harga AS tiket_harga, e.nama_event, e.tanggal_event, e.lokasi 
-                  FROM " . $this->table . " p
-                  LEFT JOIN tiket t ON p.tiket_id = t.id
-                  LEFT JOIN events e ON t.event_id = e.id
-                  WHERE p.customer_id = :customer_id
-                  ORDER BY p.tanggal_pemesanan DESC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':customer_id', $customer_id);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->builder
+            ->table($this->table . ' p')
+            ->select(['p.*', 't.nama_tiket', 't.harga AS tiket_harga', 'e.nama_event', 'e.tanggal_event', 'e.lokasi'])
+            ->leftJoin('tiket t', 'p.tiket_id = t.id')
+            ->leftJoin('events e', 't.event_id = e.id')
+            ->where('p.customer_id', '=', $customer_id)
+            ->orderBy('p.tanggal_pemesanan', 'DESC')
+            ->get();
     }
 
     // Create order
     public function createPemesanan($data) {
-        $query = "INSERT INTO " . $this->table . " 
-              (customer_id, tiket_id, jumlah_tiket, total_harga, status, kode_booking) 
-              VALUES (:customer_id, :tiket_id, :jumlah_tiket, :total_harga, :status, :kode_booking)";
-        
-        $stmt = $this->conn->prepare($query);
-        
         // Generate booking code
         $kode_booking = 'BK' . strtoupper(substr(md5(time()), 0, 8));
-        
-        $status = 'Pending';
-        $stmt->bindParam(':customer_id', $data['customer_id']);
-        $stmt->bindParam(':tiket_id', $data['tiket_id']);
-        $stmt->bindParam(':jumlah_tiket', $data['jumlah_tiket']);
-        $stmt->bindParam(':total_harga', $data['total_harga']);
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':kode_booking', $kode_booking);
-        
-        return $stmt->execute();
+
+        $insertData = [
+            'customer_id' => $data['customer_id'],
+            'tiket_id' => $data['tiket_id'],
+            'jumlah_tiket' => $data['jumlah_tiket'],
+            'total_harga' => $data['total_harga'],
+            'status' => 'Pending',
+            'kode_booking' => $kode_booking
+        ];
+
+        return $this->builder
+            ->table($this->table)
+            ->insert($insertData);
     }
 
     // Update order status
     public function updateStatusPemesanan($id, $status) {
-        $query = "UPDATE " . $this->table . " SET status = :status WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':status', $status);
-        return $stmt->execute();
+        return $this->builder
+            ->table($this->table)
+            ->where('id', '=', $id)
+            ->update(['status' => $status]);
     }
 
     // Delete order
     public function deletePemesanan($id) {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        return $this->builder
+            ->table($this->table)
+            ->where('id', '=', $id)
+            ->delete();
     }
 
     // Get pending orders count
     public function getPendingCount() {
-        $query = "SELECT COUNT(*) as total FROM " . $this->table . " WHERE status = 'Pending'";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['total'];
+        return $this->builder
+            ->table($this->table)
+            ->where('status', '=', 'Pending')
+            ->count();
     }
 
     // Get orders statistics
@@ -102,36 +95,48 @@ class PemesananModel {
         $stats = [];
 
         // Total orders
-        $query = "SELECT COUNT(*) as total FROM " . $this->table;
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $stats['total_orders'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        $stats['total_orders'] = $this->builder->table($this->table)->count();
 
         // Pending orders
-        $query = "SELECT COUNT(*) as total FROM " . $this->table . " WHERE status = 'Pending'";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $stats['pending_orders'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        $stats['pending_orders'] = $this->builder->table($this->table)->where('status', '=', 'Pending')->count();
 
         // Approved orders
-        $query = "SELECT COUNT(*) as total FROM " . $this->table . " WHERE status = 'Disetujui'";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $stats['approved_orders'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        $stats['approved_orders'] = $this->builder->table($this->table)->where('status', '=', 'Disetujui')->count();
 
         // Rejected orders
-        $query = "SELECT COUNT(*) as total FROM " . $this->table . " WHERE status = 'Ditolak'";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $stats['rejected_orders'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        $stats['rejected_orders'] = $this->builder->table($this->table)->where('status', '=', 'Ditolak')->count();
 
         // Total revenue from approved orders
-        $query = "SELECT SUM(total_harga) as total FROM " . $this->table . " WHERE status = 'Disetujui'";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $stats['total_revenue'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0;
+        $res = $this->builder->table($this->table)
+            ->select('SUM(total_harga) as total')
+            ->where('status', '=', 'Disetujui')
+            ->first();
+
+        $stats['total_revenue'] = $res['total'] ?? 0;
 
         return $stats;
+    }
+
+    /**
+     * Check if there are any pemesanan for a given tiket id
+     */
+    public function hasOrdersForTiket($tiket_id) {
+        return $this->builder
+            ->table($this->table)
+            ->where('tiket_id', '=', $tiket_id)
+            ->count() > 0;
+    }
+
+    /**
+     * Check if there are any pemesanan for a given event id (via tiket)
+     */
+    public function hasOrdersForEvent($event_id) {
+        // join tiket to pemesanan and count
+        return $this->builder
+            ->table($this->table . ' p')
+            ->leftJoin('tiket t', 'p.tiket_id = t.id')
+            ->where('t.event_id', '=', $event_id)
+            ->count() > 0;
     }
 }
 ?>
