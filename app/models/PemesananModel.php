@@ -138,5 +138,63 @@ class PemesananModel {
             ->where('t.event_id', '=', $event_id)
             ->count() > 0;
     }
+
+    /**
+     * Delete pemesanan (and related pembayaran) for a given tiket id
+     */
+    public function deleteByTiketId($tiket_id) {
+        // find pemesanan ids for this tiket
+        $stmt = $this->conn->prepare("SELECT id FROM pemesanan WHERE tiket_id = :tiket_id");
+        $stmt->bindParam(':tiket_id', $tiket_id);
+        $stmt->execute();
+        $pemesananIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        if (!empty($pemesananIds)) {
+            // delete related pembayaran
+            $placeholders = implode(',', array_fill(0, count($pemesananIds), '?'));
+            $delPemb = $this->conn->prepare("DELETE FROM pembayaran WHERE pemesanan_id IN ({$placeholders})");
+            $delPemb->execute($pemesananIds);
+
+            // delete pemesanan rows
+            $delPem = $this->conn->prepare("DELETE FROM pemesanan WHERE tiket_id = :tiket_id");
+            $delPem->bindParam(':tiket_id', $tiket_id);
+            return $delPem->execute();
+        }
+
+        return true;
+    }
+
+    /**
+     * Delete pemesanan (and related pembayaran) for all tickets of an event
+     */
+    public function deleteByEventId($event_id) {
+        // find tiket ids for this event
+        $stmt = $this->conn->prepare("SELECT id FROM tiket WHERE event_id = :event_id");
+        $stmt->bindParam(':event_id', $event_id);
+        $stmt->execute();
+        $tiketIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        if (empty($tiketIds)) return true;
+
+        // find pemesanan ids for these tiket ids
+        $placeholders = implode(',', array_fill(0, count($tiketIds), '?'));
+        $selPem = $this->conn->prepare("SELECT id FROM pemesanan WHERE tiket_id IN ({$placeholders})");
+        $selPem->execute($tiketIds);
+        $pemesananIds = $selPem->fetchAll(PDO::FETCH_COLUMN);
+
+        if (!empty($pemesananIds)) {
+            // delete related pembayaran
+            $ph2 = implode(',', array_fill(0, count($pemesananIds), '?'));
+            $delPemb = $this->conn->prepare("DELETE FROM pembayaran WHERE pemesanan_id IN ({$ph2})");
+            $delPemb->execute($pemesananIds);
+
+            // delete pemesanan rows
+            $delPem = $this->conn->prepare("DELETE FROM pemesanan WHERE tiket_id IN ({$placeholders})");
+            $delPem->execute($tiketIds);
+            return true;
+        }
+
+        return true;
+    }
 }
 ?>

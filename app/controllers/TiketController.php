@@ -108,12 +108,16 @@ class TiketController {
             }
 
             // prevent deletion if there are orders referencing this ticket,
-            // unless the parent event status is Selesai or Dibatalkan (then allow deletion)
+            // unless the parent event status is Selesai or Dibatalkan (then remove the orders too)
             $eventStatus = $event['status'] ?? '';
             $allowed = ['Selesai', 'Dibatalkan'];
-            if ($pemesananModel->hasOrdersForTiket($_GET['id']) && !in_array($eventStatus, $allowed)) {
-                header('Location: index.php?module=tiket&message=error_delete_has_orders');
-                exit();
+            if ($pemesananModel->hasOrdersForTiket($_GET['id'])) {
+                if (!in_array($eventStatus, $allowed)) {
+                    header('Location: index.php?module=tiket&message=error_delete_has_orders');
+                    exit();
+                }
+                // parent event is finished/cancelled: remove related pemesanan and pembayaran first
+                $pemesananModel->deleteByTiketId($_GET['id']);
             }
 
             if ($this->tiketModel->deleteTiket($_GET['id'])) {

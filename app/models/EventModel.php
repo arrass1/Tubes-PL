@@ -38,7 +38,6 @@ class EventModel {
         return $this->builder
             ->table($this->table)
             ->where('status', '=', 'Aktif')
-            ->where('tanggal_event', '>=', date('Y-m-d'))
             ->orderBy('tanggal_event', 'ASC')
             ->get();
     }
@@ -118,7 +117,6 @@ class EventModel {
             ->table($this->table)
             ->where('kategori', '=', $category)
             ->where('status', '=', 'Aktif')
-            ->where('tanggal_event', '>=', date('Y-m-d'))
             ->orderBy('tanggal_event', 'ASC')
             ->get();
     }
@@ -127,8 +125,8 @@ class EventModel {
      * Get all unique categories
      */
     public function getAllCategories() {
-        // only categories for active/upcoming events
-        $query = "SELECT DISTINCT kategori FROM " . $this->table . " WHERE kategori IS NOT NULL AND kategori != '' AND status = 'Aktif' AND tanggal_event >= CURDATE() ORDER BY kategori ASC";
+        // only categories for active events
+        $query = "SELECT DISTINCT kategori FROM " . $this->table . " WHERE kategori IS NOT NULL AND kategori != '' AND status = 'Aktif' ORDER BY kategori ASC";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_COLUMN);

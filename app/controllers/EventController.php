@@ -162,12 +162,16 @@ class EventController {
                 }
 
                 // prevent deletion if there are orders referencing tickets of this event,
-                // unless the event status is Selesai or Dibatalkan (then allow deletion)
+                // unless the event status is Selesai or Dibatalkan (then remove the orders too)
                 $eventStatus = $event['status'] ?? '';
                 $allowed = ['Selesai', 'Dibatalkan'];
-                if ($pemesananModel->hasOrdersForEvent($_GET['id']) && !in_array($eventStatus, $allowed)) {
-                    header('Location: index.php?module=event&message=error_delete_has_orders');
-                    exit();
+                if ($pemesananModel->hasOrdersForEvent($_GET['id'])) {
+                    if (!in_array($eventStatus, $allowed)) {
+                        header('Location: index.php?module=event&message=error_delete_has_orders');
+                        exit();
+                    }
+                    // event is finished/cancelled: remove related pemesanan and pembayaran first
+                    $pemesananModel->deleteByEventId($_GET['id']);
                 }
 
                 if ($event && $event['image']) {

@@ -7,7 +7,7 @@
     <!-- Main Payment Form -->
     <div>
         <div class="form-card" style="padding: 30px;">
-            <h3 style="color: var(--text-color); margin-bottom: 25px; font-size: 20px;">
+            <h3 style="color: #333; margin-bottom: 25px; font-size: 20px;">
                 <i class="fas fa-wallet"></i> Pilih Metode Pembayaran
             </h3>
 
@@ -16,7 +16,7 @@
 
                 <!-- E-Wallet Options -->
                 <div style="margin-bottom: 30px;">
-                    <h4 style="color: var(--muted-color); margin-bottom: 15px; font-size: 16px; font-weight: 600;">
+                    <h4 style="color: #666; margin-bottom: 15px; font-size: 16px; font-weight: 600;">
                         <i class="fas fa-mobile-alt"></i> E-Wallet
                     </h4>
                     <div style="display: grid; gap: 12px;">
@@ -53,7 +53,7 @@
 
                 <!-- Bank Transfer Options -->
                 <div style="margin-bottom: 30px;">
-                    <h4 style="color: var(--muted-color); margin-bottom: 15px; font-size: 16px; font-weight: 600;">
+                    <h4 style="color: #666; margin-bottom: 15px; font-size: 16px; font-weight: 600;">
                         <i class="fas fa-university"></i> Transfer Bank
                     </h4>
                     <div style="display: grid; gap: 12px;">
@@ -90,7 +90,7 @@
 
                 <!-- Digital Payment Options -->
                 <div style="margin-bottom: 30px;">
-                    <h4 style="color: var(--muted-color); margin-bottom: 15px; font-size: 16px; font-weight: 600;">
+                    <h4 style="color: #666; margin-bottom: 15px; font-size: 16px; font-weight: 600;">
                         <i class="fas fa-qrcode"></i> Pembayaran Digital Lainnya
                     </h4>
                     <div style="display: grid; gap: 12px;">
@@ -119,11 +119,13 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div style="display: flex; gap: 15px; margin-top: 35px; padding-top: 25px; border-top: 2px solid var(--border-color);">
+                <div
+                    style="display: flex; gap: 15px; margin-top: 35px; padding-top: 25px; border-top: 2px solid #e5e7eb;">
                     <button type="button" onclick="confirmPayment()" class="btn-submit" style="flex: 1;">
                         <i class="fas fa-check-circle"></i> Bayar Sekarang
                     </button>
-                    <a href="index.php?module=pemesanan&action=my_orders" class="btn-cancel" style="text-decoration: none; text-align: center;">
+                    <a href="index.php?module=pemesanan&action=my_orders" class="btn-cancel"
+                        style="text-decoration: none; text-align: center;">
                         <i class="fas fa-arrow-left"></i> Kembali
                     </a>
                 </div>
@@ -133,19 +135,23 @@
 
     <!-- Sidebar - Order Summary -->
     <div>
-        <div class="form-card" style="padding: 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; position: sticky; top: 20px;">
-            <h4 style="margin-bottom: 20px; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 15px;">
+        <div class="form-card"
+            style="padding: 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; position: sticky; top: 20px;">
+            <h4
+                style="margin-bottom: 20px; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 15px;">
                 <i class="fas fa-receipt"></i> Ringkasan Pesanan
             </h4>
-            
+
             <div style="margin-bottom: 20px;">
                 <div style="font-size: 13px; opacity: 0.9; margin-bottom: 5px;">Event</div>
-                <div style="font-weight: bold; font-size: 16px;"><?= htmlspecialchars($pemesanan['nama_event'] ?? 'Event') ?></div>
+                <div style="font-weight: bold; font-size: 16px;">
+                    <?= htmlspecialchars($pemesanan['nama_event'] ?? 'Event') ?></div>
             </div>
 
             <div style="margin-bottom: 20px;">
                 <div style="font-size: 13px; opacity: 0.9; margin-bottom: 5px;">Kode Booking</div>
-                <div style="font-weight: bold; font-family: monospace;"><?= htmlspecialchars($pemesanan['kode_booking']) ?></div>
+                <div style="font-weight: bold; font-family: monospace;">
+                    <?= htmlspecialchars($pemesanan['kode_booking']) ?></div>
             </div>
 
             <div style="margin-bottom: 20px;">
@@ -169,7 +175,8 @@
                 </div>
             </div>
 
-            <div style="margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.04); border-radius: 8px; font-size: 13px;">
+            <div
+                style="margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px; font-size: 13px;">
                 <i class="fas fa-shield-alt"></i> Pembayaran Anda Aman & Terenkripsi
             </div>
         </div>
@@ -186,52 +193,54 @@
     display: none;
 }
 
-    .payment-card {
-    border: 2px solid var(--border-color);
+.payment-card {
+    border: 2px solid #e5e7eb;
     padding: 18px 20px;
     border-radius: 8px;
     display: flex;
     align-items: center;
     gap: 15px;
     transition: all 0.3s ease;
-    background: var(--card-bg);
+    background: white;
 }
 
 .payment-card i {
     font-size: 24px;
 }
 
-    .payment-card span {
+.payment-card span {
     font-weight: 500;
-    color: var(--text-color);
+    color: #333;
     font-size: 15px;
 }
 
-    .payment-option input[type="radio"]:checked + .payment-card {
+.payment-option input[type="radio"]:checked+.payment-card {
     border-color: #7c3aed;
-    background: rgba(147,51,234,0.06);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    background: #f5f3ff;
+    box-shadow: 0 4px 6px rgba(124, 58, 237, 0.1);
 }
 
-    .payment-card:hover {
+.payment-card:hover {
     border-color: #a78bfa;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 </style>
 
 <script>
 function confirmPayment() {
     const selectedPayment = document.querySelector('input[name="metode_pembayaran"]:checked');
-    
+
     if (!selectedPayment) {
         alert('Silakan pilih metode pembayaran terlebih dahulu!');
         return;
     }
-    
+
     const metodeName = selectedPayment.value;
     const totalHarga = '<?= number_format($pemesanan['total_harga'], 0, ',', '.') ?>';
-    
-    if (confirm(`Konfirmasi Pembayaran\n\nMetode: ${metodeName}\nTotal: Rp ${totalHarga}\n\nApakah Anda yakin ingin melanjutkan pembayaran?`)) {
+
+    if (confirm(
+            `Konfirmasi Pembayaran\n\nMetode: ${metodeName}\nTotal: Rp ${totalHarga}\n\nApakah Anda yakin ingin melanjutkan pembayaran?`
+            )) {
         document.getElementById('paymentForm').submit();
     }
 }
