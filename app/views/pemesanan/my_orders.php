@@ -23,12 +23,13 @@
                     <th>Total Harga</th>
                     <th>Status</th>
                     <th>Tanggal Pemesanan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($pemesanan)): ?>
                     <tr>
-                        <td colspan="8" style="text-align: center; color: var(--muted-color);">
+                        <td colspan="9" style="text-align: center; color: var(--muted-color);">
                             <i class="fas fa-inbox"></i> Anda belum memiliki pesanan.
                         </td>
                     </tr>
@@ -51,6 +52,13 @@
                             </span>
                         </td>
                         <td><?= date('d M Y', strtotime($p['tanggal_pemesanan'])) ?></td>
+                        <td>
+                            <?php if (!empty($p['kode_pembayaran']) && ($p['pembayaran_status'] === 'Berhasil')): ?>
+                                <a class="btn btn-primary" href="index.php?module=etiket&action=show&kode=<?= urlencode($p['kode_pembayaran']) ?>">Lihat E-Ticket</a>
+                            <?php else: ?>
+                                <span style="color: var(--muted-color);">-</span>
+                            <?php endif; ?>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>

@@ -4,15 +4,18 @@ class PemesananController {
     private $pemesananModel;
     private $eventModel;
     private $tiketModel;
+    private $pembayaranModel;
 
     public function __construct($db) {
         $this->db = $db;
         require_once __DIR__ . '/../models/PemesananModel.php';
         require_once __DIR__ . '/../models/EventModel.php';
         require_once __DIR__ . '/../models/TiketModel.php';
+        require_once __DIR__ . '/../models/PembayaranModel.php';
         $this->pemesananModel = new PemesananModel($db);
         $this->eventModel = new EventModel($db);
         $this->tiketModel = new TiketModel($db);
+        $this->pembayaranModel = new PembayaranModel($db);
     }
 
     // Display all orders (for admin)
@@ -133,9 +136,54 @@ class PemesananController {
         $module = 'pemesanan';
         $pageTitle = 'Pesanan Saya';
         $pemesanan = $this->pemesananModel->getPemesananByCustomer($_SESSION['user_id']);
+
+        // attach pembayaran info (if exists) so view can link to the official etiket controller
+        foreach ($pemesanan as $k => $p) {
+            $pay = $this->pembayaranModel->getPembayaranByPemesananId($p['id']);
+            if ($pay) {
+                $pemesanan[$k]['kode_pembayaran'] = $pay['kode_pembayaran'];
+                $pemesanan[$k]['pembayaran_status'] = $pay['status_pembayaran'];
+            } else {
+                $pemesanan[$k]['kode_pembayaran'] = null;
+                $pemesanan[$k]['pembayaran_status'] = null;
+            }
+        }
         
         include __DIR__ . '/../views/layout/header.php';
         include __DIR__ . '/../views/pemesanan/my_orders.php';
+        include __DIR__ . '/../views/layout/footer.php';
+    }
+
+    // Show e-ticket for a pemesanan (user only)
+    public function eticket() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?page=login');
+            exit;
+        }
+
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+        if (!$id) {
+            header('Location: index.php?module=pemesanan&error=not_found');
+            exit;
+        }
+
+        $pem = $this->pemesananModel->getPemesananById($id);
+        if (!$pem) {
+            header('Location: index.php?module=pemesanan&error=not_found');
+            exit;
+        }
+
+        // ensure the logged-in user owns this order (or is admin)
+        if ($pem['customer_id'] != $_SESSION['user_id'] && !isset($_SESSION['admin_role'])) {
+            header('Location: index.php?module=pemesanan&error=not_authorized');
+            exit;
+        }
+
+        $module = 'pemesanan';
+        $pageTitle = 'E-Ticket';
+
+        include __DIR__ . '/../views/layout/header.php';
+        include __DIR__ . '/../views/pemesanan/eticket.php';
         include __DIR__ . '/../views/layout/footer.php';
     }
 

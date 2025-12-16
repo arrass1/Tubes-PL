@@ -27,7 +27,7 @@ class PemesananModel {
     public function getPemesananById($id) {
         return $this->builder
             ->table($this->table . ' p')
-            ->select(['p.*', 't.nama_tiket', 't.harga AS tiket_harga', 'e.nama_event', 'c.nama as customer_nama', 'c.email as customer_email'])
+            ->select(['p.*', 't.nama_tiket', 't.harga AS tiket_harga', 'e.nama_event', 'e.tanggal_event', 'e.lokasi', 'c.nama as customer_nama', 'c.email as customer_email'])
             ->leftJoin('tiket t', 'p.tiket_id = t.id')
             ->leftJoin('events e', 't.event_id = e.id')
             ->leftJoin('customers c', 'p.customer_id = c.id')
